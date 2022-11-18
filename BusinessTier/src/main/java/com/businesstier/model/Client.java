@@ -1,5 +1,8 @@
 package com.businesstier.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.type.DateTime;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -7,14 +10,30 @@ import java.sql.Date;
 @Table(name = "clients")
 public class Client {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        private int id;
-        // You could also assign table column names
-        @Column(name = "Name")
-        private String name;
-        @Column(name = "DOB")
-        private Date dob;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    // You could also assign table column names
+    @Column(name = "Username")
+    private String username;
+
+    @Column(name = "Password")
+    private String password;
+
+    @Column(name = "FullName")
+    private String name;
+
+    @Column(name = "Email")
+    private String email;
+
+
+    @Column(name = "DOB")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date dob;
+
+    @Column(name = "PhoneNumber")
+    private long phoneNumber;
+
 
     public int getId() {
         return id;
@@ -22,6 +41,24 @@ public class Client {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {
@@ -32,11 +69,40 @@ public class Client {
         this.name = name;
     }
 
-    public Date getDob() {
-        return dob;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDob(Date dob) {
-        this.dob = dob;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public long getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(long phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", dob=" + dob +
+                ", phoneNumber=" + phoneNumber +
+                '}';
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("")
 public class ClientController{
   private final Logger logger = LoggerFactory.getLogger(ClientController.class);
   private ClientServiceImpl clientService;
@@ -21,11 +21,13 @@ public class ClientController{
   }
 
 
-  // http://localhost:8090/api/clients
-  @PostMapping("/clients")
+  // http://localhost:8090/
+  @CrossOrigin(origins = "https://localhost:7172")
+  @PostMapping(value = "/addNewClient", consumes = "application/json")
   public ResponseEntity<Object> createClient(@RequestBody Client client) {
     try {
       Client createdClient = clientService.create(client);
+      System.out.println(client.getDob());
       return new ResponseEntity<Object>(createdClient, HttpStatus.OK);
     } catch (Exception ex) {
       logger.error(ex.getMessage(), ex);
@@ -43,7 +45,7 @@ public class ClientController{
         return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
       }
   }
-  @GetMapping(value="/clienta/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value="/clients/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> getClientById(@PathVariable("id") int id){
     try {
       Optional<Client> client= clientService.findById(id);
@@ -58,9 +60,12 @@ public class ClientController{
     }
   }
 
+
+
   @PutMapping("/clients/{id}")
   public ResponseEntity<Object> updateClient(@PathVariable("id") int id, @RequestBody Client client){
     try {
+      System.out.println(client.toString());
       client.setId(id);
       Client savedClient = clientService.update(client);
       return new ResponseEntity<Object>(savedClient, HttpStatus.OK);

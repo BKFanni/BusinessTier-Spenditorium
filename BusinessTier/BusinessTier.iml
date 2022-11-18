@@ -119,5 +119,6 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.4.2" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.woodstox:stax2-api:4.2.1" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.woodstox:woodstox-core:6.3.1" level="project" />
+    <orderEntry type="library" name="postgresql-42.5.0" level="project" />
   </component>
 </module>
