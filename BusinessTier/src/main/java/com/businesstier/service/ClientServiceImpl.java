@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class ClientServiceImpl implements ClientService{
     ClientRepository clientRepository;
@@ -16,7 +17,7 @@ public class ClientServiceImpl implements ClientService{
     }
     @Override
     public Client create(Client client) {
-        return clientRepository.save(client);
+        return (Client) clientRepository.save(client);
     }
 
 
@@ -37,11 +38,26 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public Client update(Client client) {
-        return clientRepository.save(client);
+        return (Client) clientRepository.save(client);
     }
 
     @Override
     public void deleteById(int id) {
         clientRepository.deleteById(id);
+    }
+
+   @Override
+    public Boolean existsByUsername(String username) {
+        return clientRepository.existsByUsername(username);
+    }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return clientRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Boolean getAccessLogin(String username, String password) {
+        return clientRepository.getAccessLogin(username,password);
     }
 }

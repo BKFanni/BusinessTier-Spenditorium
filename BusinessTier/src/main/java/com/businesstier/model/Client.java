@@ -28,11 +28,11 @@ public class Client {
 
 
     @Column(name = "DOB")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dob;
 
     @Column(name = "PhoneNumber")
-    private long phoneNumber;
+    private int phonenumber;
 
 
     public int getId() {
@@ -77,12 +77,12 @@ public class Client {
         this.email = email;
     }
 
-    public long getPhoneNumber() {
-        return phoneNumber;
+    public int getPhoneNumber() {
+        return phonenumber;
     }
 
-    public void setPhoneNumber(long phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(int phoneNumber) {
+        this.phonenumber = phoneNumber;
     }
 
     public String getUsername() {
@@ -102,7 +102,7 @@ public class Client {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", dob=" + dob +
-                ", phoneNumber=" + phoneNumber +
+                ", phoneNumber=" + phonenumber +
                 '}';
     }
 }

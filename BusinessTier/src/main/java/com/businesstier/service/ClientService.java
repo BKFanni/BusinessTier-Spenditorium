@@ -15,4 +15,12 @@ public interface ClientService{
     Optional<Client> findById(int id);
     Client update(Client client);
     void deleteById(int id);
+
+    Boolean existsByUsername(String username);
+
+    Boolean existsByEmail(String email);
+
+    //LOGIN
+   Boolean getAccessLogin(String username, String password);
+
 }
