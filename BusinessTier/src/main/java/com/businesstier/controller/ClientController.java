@@ -1,9 +1,13 @@
 package com.businesstier.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
 import com.businesstier.model.Bill;
 import com.businesstier.model.Client;
 import com.businesstier.model.ClientLogin;
 import com.businesstier.service.ClientServiceImpl;
+import io.jsonwebtoken.Jwts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +16,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.interfaces.RSAPublicKey;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -48,11 +58,19 @@ public class ClientController{
   }
 
 
-
+//SHOULD RETURN A JWT TOKEN
   @GetMapping(value = "/login/{username}+{password}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> getClientLogin(@PathVariable("username") String username, @PathVariable("password") String password, @RequestBody ClientLogin clientLogin) {
     try{
       if(clientService.getAccessLogin(username, password)==true) {
+        try {
+          Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, rsaPrivateKey);
+          String token = JWT.create()
+                  .withIssuer("auth0")
+                  .sign(algorithm);
+        } catch (JWTCreationException exception){
+          // Invalid Signing configuration / Couldn't convert Claims.
+        }
         return new ResponseEntity<Object>(HttpStatus.OK);
       }
       else throw new Exception();
@@ -61,6 +79,8 @@ public class ClientController{
       return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
     }
   }
+
+
 
     @GetMapping(value = "/clients", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getAllClients(){
