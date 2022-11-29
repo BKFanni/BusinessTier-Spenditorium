@@ -1,5 +1,6 @@
 package com.businesstier.repository;
 
+import com.businesstier.model.Bill;
 import com.businesstier.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
@@ -20,4 +21,8 @@ public interface ClientRepository<T,Integer extends Serializable> extends JpaRep
 
  //LOGIN
  Boolean getAccessLogin(String username, String password);
+
+ Optional<Bill> getBillById(int id);
+
+ Bill addBill(int id);
  }

@@ -1,5 +1,6 @@
 package com.businesstier.controller;
 
+import com.businesstier.model.Bill;
 import com.businesstier.model.Client;
 import com.businesstier.model.ClientLogin;
 import com.businesstier.service.ClientServiceImpl;
@@ -46,8 +47,10 @@ public class ClientController{
     }
   }
 
-  @GetMapping("/login/{username}+{password}")
-  public ResponseEntity<Object> Client(@PathVariable("username") String username, @PathVariable("password") String password, @RequestBody ClientLogin clientLogin) {
+
+
+  @GetMapping(value = "/login/{username}+{password}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Object> getClientLogin(@PathVariable("username") String username, @PathVariable("password") String password, @RequestBody ClientLogin clientLogin) {
     try{
       if(clientService.getAccessLogin(username, password)==true) {
         return new ResponseEntity<Object>(HttpStatus.OK);
@@ -59,7 +62,7 @@ public class ClientController{
     }
   }
 
-    @GetMapping("/clients")
+    @GetMapping(value = "/clients", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getAllClients(){
       try {
         Iterable<Client> clients = clientService.findAllItr();
@@ -86,7 +89,7 @@ public class ClientController{
 
 
 
-  @PutMapping("/clients/{id}")
+  @PutMapping(value = "/clients/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> updateClient(@PathVariable("id") int id, @RequestBody Client client){
     try {
       System.out.println(client.toString());
@@ -111,7 +114,32 @@ public class ClientController{
   }
 
 
+  //BILL related methods
+
+  @PostMapping(value = "/addBill/{clientId}",consumes = "application/json")
+  public ResponseEntity<Object> addBillToClient(@RequestBody Bill bill) {
+    try {
+      Bill createdBill = clientService.addBill(bill);
+      return new ResponseEntity<Object>(createdBill, HttpStatus.OK);
+    } catch (Exception ex) {
+      logger.error(ex.getMessage(), ex);
+      return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+    }
+  }
 
 
-
+  @GetMapping(value = "/client/viewBill/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Object> getBillById(@PathVariable("id") int id) {
+    try{
+      Optional<Bill> bill=clientService.getBillById(id);
+      if (bill.isPresent()) {
+        return new ResponseEntity<Object>(bill.get(), HttpStatus.OK);
+      } else {
+        return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+      }
+    } catch (Exception ex) {
+      logger.error(ex.getMessage(), ex);
+      return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+    }
+  }
 }

@@ -1,5 +1,6 @@
 package com.businesstier.service;
 
+import com.businesstier.model.Bill;
 import com.businesstier.model.Client;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +23,7 @@ public interface ClientService{
 
     //LOGIN
    Boolean getAccessLogin(String username, String password);
+
+    Optional<Bill> getBillById(int id);
 
 }

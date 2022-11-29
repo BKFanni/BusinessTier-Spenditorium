@@ -1,5 +1,6 @@
 package com.businesstier.service;
 
+import com.businesstier.model.Bill;
 import com.businesstier.model.Client;
 import com.businesstier.repository.ClientRepository;
 import org.springframework.stereotype.Service;
@@ -59,5 +60,10 @@ public class ClientServiceImpl implements ClientService{
     @Override
     public Boolean getAccessLogin(String username, String password) {
         return clientRepository.getAccessLogin(username,password);
+    }
+
+    @Override
+    public Optional<Bill> getBillById(int id) {
+        return clientRepository.getBillById(id);
     }
 }
