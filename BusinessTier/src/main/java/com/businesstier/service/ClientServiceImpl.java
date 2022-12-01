@@ -1,8 +1,6 @@
 package com.businesstier.service;
-
 import com.businesstier.model.Bill;
 import com.businesstier.model.Client;
-import com.businesstier.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,59 +9,54 @@ import java.util.Optional;
 
 @Service
 public class ClientServiceImpl implements ClientService{
-    ClientRepository clientRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository){
-        this.clientRepository=clientRepository;
-    }
     @Override
     public Client create(Client client) {
-        return (Client) clientRepository.save(client);
+        return null;
     }
-
 
     @Override
     public List<Client> findAll() {
-        return (List<Client>) clientRepository.findAll();
+        return null;
     }
 
     @Override
     public Iterable<Client> findAllItr() {
-        return clientRepository.findAll();
+        return null;
     }
 
     @Override
     public Optional<Client> findById(int id) {
-        return clientRepository.findById(id);
+        return Optional.empty();
     }
 
     @Override
     public Client update(Client client) {
-        return (Client) clientRepository.save(client);
+        return null;
     }
 
     @Override
     public void deleteById(int id) {
-        clientRepository.deleteById(id);
+
     }
 
-   @Override
+    @Override
     public Boolean existsByUsername(String username) {
-        return clientRepository.existsByUsername(username);
+        return null;
     }
 
     @Override
     public Boolean existsByEmail(String email) {
-        return clientRepository.existsByEmail(email);
+        return null;
     }
 
     @Override
     public Boolean getAccessLogin(String username, String password) {
-        return clientRepository.getAccessLogin(username,password);
+        return null;
     }
 
     @Override
     public Optional<Bill> getBillById(int id) {
-        return clientRepository.getBillById(id);
+        return Optional.empty();
     }
 }

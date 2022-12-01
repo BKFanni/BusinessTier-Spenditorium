@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service // shorthand for @Bean to register OrderService interface as a bean
+@Service// shorthand for @Bean to register OrderService interface as a bean
 public interface ClientService{
     Client create(Client client);
 

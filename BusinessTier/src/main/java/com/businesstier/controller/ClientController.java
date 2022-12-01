@@ -7,7 +7,6 @@ import com.businesstier.model.Bill;
 import com.businesstier.model.Client;
 import com.businesstier.model.ClientLogin;
 import com.businesstier.service.ClientServiceImpl;
-import io.jsonwebtoken.Jwts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,26 +14,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
+import java.util.*;
+import java.util.random.RandomGenerator;
 
-import java.security.interfaces.RSAPublicKey;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import static javax.crypto.Cipher.SECRET_KEY;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("")
 public class ClientController{
-  private final Logger logger = LoggerFactory.getLogger(ClientController.class);
+  private Logger logger = LoggerFactory.getLogger(ClientController.class);
   private ClientServiceImpl clientService;
 
-  public ClientController(ClientServiceImpl clientService) {
-    this.clientService=clientService;
-  }
 
+@Autowired
+  public ClientController(ClientServiceImpl clientService) {
+    this.clientService = clientService;
+  }
 
   // http://localhost:8090/
 
@@ -57,27 +55,57 @@ public class ClientController{
     }
   }
 
-
+//{"username":"vlad","password":"12345","fullname":"Vladislav","email":"smile@gmail.com","dob":"2022-11-18","phonenumber":11111111}
 //SHOULD RETURN A JWT TOKEN
   @GetMapping(value = "/login/{username}+{password}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Object> getClientLogin(@PathVariable("username") String username, @PathVariable("password") String password, @RequestBody ClientLogin clientLogin) {
+  public String getClientLogin(@PathVariable("username") String username, @PathVariable("password") String password, @RequestBody ClientLogin clientLogin) {
     try{
       if(clientService.getAccessLogin(username, password)==true) {
-        try {
+        //return createJWT(String.valueOf(clientLogin.getId()),username,password, RandomGenerator.getDefault().nextInt());
+        /*try {
           Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, rsaPrivateKey);
           String token = JWT.create()
                   .withIssuer("auth0")
                   .sign(algorithm);
         } catch (JWTCreationException exception){
           // Invalid Signing configuration / Couldn't convert Claims.
-        }
-        return new ResponseEntity<Object>(HttpStatus.OK);
+        }*/
+        return null;
       }
-      else throw new Exception();
+      else return "Client credentials are incorrect. Could not find client with the given credentials.";
     } catch (Exception ex) {
       logger.error(ex.getMessage(), ex);
-      return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+      return ex.toString();
     }
+  }
+  public static String createJWT(String id, String issuer, String subject, long ttlMillis) {
+/*
+    //The JWT signature algorithm we will be using to sign the token
+    SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+
+    long nowMillis = System.currentTimeMillis();
+    Date now = new Date(nowMillis);
+
+    //We will sign our JWT with our ApiKey secretbyte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(String.valueOf(SECRET_KEY));
+    Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+
+    //Let's set the JWT Claims
+    JwtBuilder builder = Jwts.builder().setId(id)
+            .setIssuedAt(now)
+            .setSubject(subject)
+            .setIssuer(issuer)
+            .signWith(signatureAlgorithm, signingKey);
+
+    //if it has been specified, let's add the expiration
+    if (ttlMillis > 0) {
+      long expMillis = nowMillis + ttlMillis;
+      Date exp = new Date(expMillis);
+      builder.setExpiration(exp);
+    }
+
+    //Builds the JWT and serializes it to a compact, URL-safe string
+    return builder.compact();*/
+    return null;
   }
 
 
@@ -136,7 +164,7 @@ public class ClientController{
 
   //BILL related methods
 
-  @PostMapping(value = "/addBill/{clientId}",consumes = "application/json")
+  /*@PostMapping(value = "/addBill/{clientId}",consumes = "application/json")
   public ResponseEntity<Object> addBillToClient(@RequestBody Bill bill) {
     try {
       Bill createdBill = clientService.addBill(bill);
@@ -146,7 +174,7 @@ public class ClientController{
       return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
     }
   }
-
+*/
 
   @GetMapping(value = "/client/viewBill/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Object> getBillById(@PathVariable("id") int id) {

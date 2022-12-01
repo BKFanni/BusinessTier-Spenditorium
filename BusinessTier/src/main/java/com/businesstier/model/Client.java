@@ -1,37 +1,30 @@
 package com.businesstier.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.google.type.DateTime;
-
-import javax.persistence.*;
 import java.sql.Date;
 
-@Entity
-@Table(name = "clients")
+
 public class Client {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private int id;
-    // You could also assign table column names
-    @Column(name = "Username")
+
     private String username;
 
-    @Column(name = "Password")
+
     private String password;
 
-    @Column(name = "FullName")
+
     private String name;
 
-    @Column(name = "Email")
+
     private String email;
 
 
-    @Column(name = "DOB")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+
     private Date dob;
 
-    @Column(name = "PhoneNumber")
+
     private int phonenumber;
 
 
