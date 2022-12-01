@@ -1,32 +1,44 @@
 package com.businesstier.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.sql.Date;
+import java.util.List;
 
 
 public class Client {
 
-
+    @JsonProperty
     private int id;
 
+    @JsonProperty
     private String username;
 
-
+    @JsonProperty
     private String password;
 
-
+    @JsonProperty
     private String name;
 
-
+    @JsonProperty
     private String email;
 
-
-
+    @JsonProperty
     private Date dob;
 
-
+    @JsonProperty
     private int phonenumber;
 
+    @JsonProperty
+    private List<Bill> bills;
+
+    public Client(String username, String password){
+        this.username=username;
+        this.password=password;
+    }
+
+    public Client(){}
 
     public int getId() {
         return id;
@@ -70,14 +82,6 @@ public class Client {
         this.email = email;
     }
 
-    public int getPhoneNumber() {
-        return phonenumber;
-    }
-
-    public void setPhoneNumber(int phoneNumber) {
-        this.phonenumber = phoneNumber;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -97,5 +101,21 @@ public class Client {
                 ", dob=" + dob +
                 ", phoneNumber=" + phonenumber +
                 '}';
+    }
+
+    public int getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(int phonenumber) {
+        this.phonenumber = phonenumber;
+    }
+
+    public List<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(List<Bill> bills) {
+        this.bills = bills;
     }
 }
