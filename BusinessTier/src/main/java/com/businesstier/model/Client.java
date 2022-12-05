@@ -33,9 +33,23 @@ public class Client {
     @JsonProperty
     private List<Bill> bills;
 
+    @JsonProperty
+    private boolean isSubToElectricity;
+    @JsonProperty
+    private boolean isSubToWater;
+    @JsonProperty
+    private boolean isSubToHeating;
+    @JsonProperty
+    private boolean isSubToRent;
+
     public Client(String username, String password){
         this.username=username;
         this.password=password;
+
+        this.isSubToElectricity = false;
+        this.isSubToWater = false;
+        this.isSubToHeating = false;
+        this.isSubToRent = false;
     }
 
     public Client(){}
