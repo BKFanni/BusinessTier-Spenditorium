@@ -44,4 +44,10 @@ public class SubscribeToProviderImpl implements SubscribeToProvider{
         NetworkPackage networkPackage = new NetworkPackage(NetworkType.SUBTOHEATING,"HEATING");
         socketClient.communicate(networkPackage);
     }
+
+    @Override
+    public void Unsubscribe(String provider) {
+        NetworkPackage networkPackage = new NetworkPackage(NetworkType.UNSUBSCRIBE,provider);
+        socketClient.communicate(networkPackage);
+    }
 }

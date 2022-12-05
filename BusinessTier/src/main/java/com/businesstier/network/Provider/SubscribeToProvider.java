@@ -6,4 +6,6 @@ public interface SubscribeToProvider {
     void SubToElectricity();
     void SubToWater();
     void SubToHeating();
+
+    void Unsubscribe(String provider);
 }

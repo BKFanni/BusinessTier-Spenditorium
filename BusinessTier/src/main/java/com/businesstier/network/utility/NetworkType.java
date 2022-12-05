@@ -18,6 +18,7 @@ public enum NetworkType {
     SUBTOWATER,
     SUBTOELECTRICITY,
     SUBTOHEATING,
-    SUBTORENT
+    SUBTORENT,
+    UNSUBSCRIBE
 
 }
