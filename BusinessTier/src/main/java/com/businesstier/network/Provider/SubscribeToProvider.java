@@ -8,4 +8,5 @@ public interface SubscribeToProvider {
     void SubToHeating();
 
     void Unsubscribe(String provider);
+    void UnsubscribeFromAll();
 }

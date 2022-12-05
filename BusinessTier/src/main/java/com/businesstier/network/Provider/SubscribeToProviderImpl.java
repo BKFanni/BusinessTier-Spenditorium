@@ -50,4 +50,12 @@ public class SubscribeToProviderImpl implements SubscribeToProvider{
         NetworkPackage networkPackage = new NetworkPackage(NetworkType.UNSUBSCRIBE,provider);
         socketClient.communicate(networkPackage);
     }
+
+    @Override
+    public void UnsubscribeFromAll() {
+        Unsubscribe("RENT");
+        Unsubscribe("WATER");
+        Unsubscribe("HEATING");
+        Unsubscribe("ELECTRICITY");
+    }
 }
