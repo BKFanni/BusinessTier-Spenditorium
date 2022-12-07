@@ -6,8 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class BusinessTierApplicationTests {
 
-   /* @Test
+    @Test
     void contextLoads() {
-    }*/
+    }
 
 }

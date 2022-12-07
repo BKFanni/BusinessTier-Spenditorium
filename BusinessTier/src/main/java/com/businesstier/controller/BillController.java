@@ -4,15 +4,19 @@ package com.businesstier.controller;
 import com.businesstier.model.Bill;
 import com.businesstier.service.bill.BillService;
 import com.businesstier.service.bill.IBillService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
+@CrossOrigin("localhost:7172")
 @RestController
 @RequestMapping("")
 public class BillController {
+    private Logger logger= LoggerFactory.getLogger(ClientController.class);
+
 
     @Autowired
     BillService billService;

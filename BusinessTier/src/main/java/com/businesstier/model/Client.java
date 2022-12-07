@@ -1,15 +1,16 @@
 package com.businesstier.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.sql.Date;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class Client {
 
     @JsonProperty
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @JsonProperty
@@ -24,14 +25,14 @@ public class Client {
     @JsonProperty
     private String email;
 
-    @JsonProperty
-    private Date dob;
+   @JsonProperty
+    private String dob;
 
     @JsonProperty
-    private int phonenumber;
+    private long phonenumber;
 
     @JsonProperty
-    private List<Bill> bills;
+    private List<Bill> bills=new ArrayList<>();
 
     @JsonProperty
     private boolean isSubToElectricity;
@@ -43,7 +44,7 @@ public class Client {
     private boolean isSubToRent;
 
     public Client(String username, String password){
-        this.username=username;
+        this.username =username;
         this.password=password;
 
         this.isSubToElectricity = false;
@@ -64,11 +65,11 @@ public class Client {
 
 
 
-    public Date getDob() {
+    public String getDob() {
         return dob;
     }
 
-    public void setDob(Date dob) {
+    public void setDob(String dob) {
         this.dob = dob;
     }
 
@@ -117,11 +118,11 @@ public class Client {
                 '}';
     }
 
-    public int getPhonenumber() {
+    public long getPhonenumber() {
         return phonenumber;
     }
 
-    public void setPhonenumber(int phonenumber) {
+    public void setPhonenumber(long phonenumber) {
         this.phonenumber = phonenumber;
     }
 
@@ -131,5 +132,16 @@ public class Client {
 
     public void setBills(List<Bill> bills) {
         this.bills = bills;
+    }
+
+    public void addBill(Bill bill){
+        bills.add(bill);
+    }
+
+    public void removeBill(int billId){
+        for (int i = 0; i < bills.size(); i++) {
+            if (bills.get(i).getId() == billId)
+                bills.remove(bills.get(i));
+        }
     }
 }

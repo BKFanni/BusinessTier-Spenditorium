@@ -17,7 +17,8 @@ public class BusinessTierApplication {
         client.startClient();
         SpringApplication.run(BusinessTierApplication.class, args);
     }
-    @Bean
+
+
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override

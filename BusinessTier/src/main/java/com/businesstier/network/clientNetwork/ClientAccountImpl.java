@@ -56,7 +56,10 @@ public class ClientAccountImpl implements ClientAccount{
     @Override
     public Client GetClientById(int id) {
         Gson gson = new Gson();
-        NetworkPackage networkPackage = new NetworkPackage(NetworkType.GETCLIENTBYID, String.valueOf(id));
+        Client client = new Client();
+        client.setId(id);
+        String serializedClient = gson.toJson(client);
+        NetworkPackage networkPackage = new NetworkPackage(NetworkType.GETCLIENTBYID,serializedClient);
         String input = socketClient.communicate(networkPackage);
         return gson.fromJson(input, Client.class);
     }

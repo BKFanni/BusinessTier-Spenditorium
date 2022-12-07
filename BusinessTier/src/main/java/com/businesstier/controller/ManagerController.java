@@ -3,15 +3,18 @@ package com.businesstier.controller;
 import com.businesstier.model.Client;
 import com.businesstier.model.Manager;
 import com.businesstier.service.manager.ManagerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("*")
+@CrossOrigin("localhost:7172")
 @RestController
 @RequestMapping("/manager")
 public class ManagerController {
+    private Logger logger= LoggerFactory.getLogger(ClientController.class);
 
     @Autowired private ManagerService service;
 
@@ -26,6 +29,7 @@ public class ManagerController {
             return new ResponseEntity(manager1, HttpStatus.OK);
         }
         catch(Exception e){
+            logger.error(e.getMessage(),e);
             return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }

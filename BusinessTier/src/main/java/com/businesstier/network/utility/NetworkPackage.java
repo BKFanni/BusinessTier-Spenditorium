@@ -13,6 +13,11 @@ public class NetworkPackage {
         this.Content = content;
     }
 
+    /*public NetworkPackage(NetworkType type, int id) {
+        this.Type=type;
+        this.Content= String.valueOf(id);
+    }*/
+
     public NetworkType getType() {
         return Type;
     }
