@@ -1,23 +1,18 @@
 package com.businesstier.controller;
 
-import com.auth0.jwt.JWT;
 import com.businesstier.model.Client;
+import com.businesstier.security.AuthRequest;
+import com.businesstier.security.JwtUtil;
 import com.businesstier.service.client.ClientService;
-import com.businesstier.service.client.IClientService;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.crypto.DefaultJwtSignatureValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
-
-import javax.crypto.spec.SecretKeySpec;
-import java.util.Base64;
-
-import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
 
 @RestController
@@ -25,6 +20,11 @@ import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 public class ClientController {
 
     private Logger logger= LoggerFactory.getLogger(ClientController.class);
+
+    @Autowired
+    private JwtUtil jwtUtil;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     ClientService service;
@@ -48,17 +48,18 @@ public class ClientController {
 
     }
 
-    //Change to jwt token
-   /* @GetMapping(value = "/login", consumes = MediaType.ALL_VALUE)
-    public ResponseEntity getClient(@RequestBody JWT token, @RequestBody String secretKey){
-        try{
-            Client client1 = service.GetClient(client.getUsername(), client.getPassword());
-            return new ResponseEntity(client1, HttpStatus.OK);
-        } catch (Exception e){
-            logger.error(e.getMessage(),e);
-            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+    @CrossOrigin("*")
+    @PostMapping(value = "/login", consumes = MediaType.ALL_VALUE)
+    public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword())
+            );
+        } catch (Exception ex) {
+            throw new Exception("Invalid username/password");
         }
-    }*/
+        return jwtUtil.generateToken(authRequest.getUserName());
+    }
 
     //STATISTICS
 

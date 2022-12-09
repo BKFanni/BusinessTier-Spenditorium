@@ -17,14 +17,4 @@ public class BusinessTierApplication {
         client.startClient();
         SpringApplication.run(BusinessTierApplication.class, args);
     }
-
-
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/greeting-javaconfig").allowedOrigins("http://localhost:7172");
-            }
-        };
-    }
 }
