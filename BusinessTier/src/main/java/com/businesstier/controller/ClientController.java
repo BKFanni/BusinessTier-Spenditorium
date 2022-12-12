@@ -1,5 +1,6 @@
 package com.businesstier.controller;
 
+import com.businesstier.model.Bill;
 import com.businesstier.model.Client;
 import com.businesstier.security.AuthRequest;
 import com.businesstier.security.JwtUtil;
@@ -13,6 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 
 @RestController
@@ -65,6 +70,116 @@ public class ClientController {
     }
 
     //STATISTICS
+    @GetMapping(value = "/statistics/average/{provider},{year}")
+    public ResponseEntity getAverageConsumptionByYear(@RequestParam("username") String username, @PathVariable("provider") String provider, @PathVariable("year") int year){
+        try{
+            Client client = service.GetClientByUsername(username);
+            return new ResponseEntity(GetAverageConsumption(username,provider,year),HttpStatus.OK);
+        }catch (Exception e){
+            logger.error(e.getMessage(),e);
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public double GetAverageConsumption(String username, String provider, int year){
+        Client client=service.GetClientByUsername(username);
+        List<Bill> bills=client.getBills();
+        List<Bill> list=new ArrayList<Bill>();
+        for (int i = 0; i < bills.size(); i++) {
+            if(bills.get(i).getProvider().equals(provider))
+            {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(bills.get(i).getBillingdate());
+                int yearbill=calendar.get(Calendar.YEAR);
+
+                if(yearbill==year){
+                    list.add(bills.get(i));
+                }
+            }
+        }
+
+        double sum=0;
+
+        for (int i = 0; i < list.size(); i++) {
+            sum=sum+list.get(i).getAmount();
+        }
+
+        sum=sum/12;
+
+        return sum;
+    }
+
+
+    @GetMapping(value = "/statistics/total/{provider},{year}")
+    public ResponseEntity getTotalConsumptionByYear(@RequestParam("username") String username, @PathVariable("provider") String provider, @PathVariable("year") int year){
+        try{
+            Client client = service.GetClientByUsername(username);
+            return new ResponseEntity(GetTotalConsumptionByYear(username,provider,year),HttpStatus.OK);
+        }catch (Exception e){
+            logger.error(e.getMessage(),e);
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public double GetTotalConsumptionByYear(String username, String provider, int year){
+        Client client=service.GetClientByUsername(username);
+        List<Bill> bills=client.getBills();
+        List<Bill> list=new ArrayList<Bill>();
+        for (int i = 0; i < bills.size(); i++) {
+            if(bills.get(i).getProvider().equals(provider))
+            {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(bills.get(i).getBillingdate());
+                int yearbill=calendar.get(Calendar.YEAR);
+
+                if(yearbill==year){
+                    list.add(bills.get(i));
+                }
+            }
+        }
+
+        double sum=0;
+
+        for (int i = 0; i < list.size(); i++) {
+            sum=sum+list.get(i).getAmount();
+        }
+
+        return sum;
+    }
+
+
+    @GetMapping(value = "/statistics/monthly/{provider},{year},{month}")
+    public ResponseEntity getConsumptionForMonthByYear(@RequestParam("username") String username, @PathVariable("provider") String provider, @PathVariable("year") int year, @PathVariable("month") int month){
+        try{
+            Client client = service.GetClientByUsername(username);
+            return new ResponseEntity(GetConsumptionForMonthByYear(username,provider,year,month),HttpStatus.OK);
+        }catch (Exception e){
+            logger.error(e.getMessage(),e);
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    public double GetConsumptionForMonthByYear(String username, String provider,int year, int month){
+        Client client=service.GetClientByUsername(username);
+        List<Bill> bills=client.getBills();
+        Bill existing=new Bill();
+        for (int i = 0; i < bills.size(); i++) {
+            if(bills.get(i).getProvider().equals(provider))
+            {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(bills.get(i).getBillingdate());
+                int monthbill=calendar.get(Calendar.MONTH);
+                int yearbill=calendar.get(Calendar.YEAR);
+
+                if(yearbill==year && monthbill==month) {
+                    existing = bills.get(i);
+                }
+            }
+        }
+        return existing.getAmount();
+    }
+
 
     @DeleteMapping("/delete/{clientId}")
     public void deleteClient(@PathVariable int clientId){

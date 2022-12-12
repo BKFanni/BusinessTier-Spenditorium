@@ -40,56 +40,11 @@ public class Client {
     public Client(String username, String password){
         this.username =username;
         this.password=password;
+    }
 
+    public Client(){
         subscriptions = new Boolean[]{false, false, false, false};
     }
-
-    public double GetYearlyConsumption(String provider, int year){
-
-        List<Bill> list=new ArrayList<Bill>();
-        for (int i = 0; i < bills.size(); i++) {
-            if(bills.get(i).getProvider().equals(provider))
-            {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(bills.get(i).getBillingdate());
-                int yearbill=calendar.get(Calendar.YEAR);
-
-                if(yearbill==year){
-                    list.add(bills.get(i));
-                }
-            }
-        }
-
-        double sum=0;
-
-        for (int i = 0; i < list.size(); i++) {
-            sum=sum+list.get(i).getAmount();
-        }
-
-        sum=sum*12;
-
-        return sum;
-    }
-
-    public double GetMonthlyConsumption(String provider,int year, int month){
-        Bill existing=new Bill();
-        for (int i = 0; i < bills.size(); i++) {
-            if(bills.get(i).getProvider().equals(provider))
-            {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(bills.get(i).getBillingdate());
-                int monthbill=calendar.get(Calendar.MONTH);
-                int yearbill=calendar.get(Calendar.YEAR);
-
-                if(yearbill==year && monthbill==month) {
-                    existing = bills.get(i);
-                }
-            }
-        }
-        return existing.getAmount();
-    }
-
-
 
     public int getId() {
         return id;
