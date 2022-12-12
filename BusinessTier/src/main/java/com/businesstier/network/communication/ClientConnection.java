@@ -25,7 +25,7 @@ public class ClientConnection implements SocketClient{
     public String communicate(NetworkPackage networkPackage) {
         try {
             Gson gson = new Gson();
-            Socket socket = new Socket("localhost", 8090);
+            Socket socket = new Socket("localhost", 8091);
             OutputStream out = socket.getOutputStream();
             InputStream in = socket.getInputStream();
             String request = gson.toJson(networkPackage);
