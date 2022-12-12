@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@CrossOrigin("http://localhost:7172")
 @RequestMapping("/client")
 public class ClientController {
 
@@ -33,7 +34,9 @@ public class ClientController {
         service=clientService;
     }
 
-    @CrossOrigin("*")
+
+
+
     @PostMapping(value = "/register", consumes = MediaType.ALL_VALUE)
     public ResponseEntity register(@RequestBody Client client){
         try{ System.out.println(client);
@@ -48,7 +51,7 @@ public class ClientController {
 
     }
 
-    @CrossOrigin("*")
+
     @PostMapping(value = "/login", consumes = MediaType.ALL_VALUE)
     public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
         try {

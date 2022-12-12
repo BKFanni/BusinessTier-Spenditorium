@@ -12,4 +12,5 @@ public interface ClientAccount {
     Client GetClientByUsername(String username);
 
     Client GetClientById(int id);
+
 }

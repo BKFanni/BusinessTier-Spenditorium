@@ -1,6 +1,6 @@
 package com.businesstier.security;
 
-import com.businesstier.model.Client;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

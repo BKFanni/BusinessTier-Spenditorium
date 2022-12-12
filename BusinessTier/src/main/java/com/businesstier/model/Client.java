@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -35,25 +36,60 @@ public class Client {
     private List<Bill> bills=new ArrayList<>();
 
     @JsonProperty
-    private boolean isSubToElectricity;
-    @JsonProperty
-    private boolean isSubToWater;
-    @JsonProperty
-    private boolean isSubToHeating;
-    @JsonProperty
-    private boolean isSubToRent;
-
+    private Boolean[] subscriptions;
     public Client(String username, String password){
         this.username =username;
         this.password=password;
 
-        this.isSubToElectricity = false;
-        this.isSubToWater = false;
-        this.isSubToHeating = false;
-        this.isSubToRent = false;
+        subscriptions = new Boolean[]{false, false, false, false};
     }
 
-    public Client(){}
+    public double GetYearlyConsumption(String provider, int year){
+
+        List<Bill> list=new ArrayList<Bill>();
+        for (int i = 0; i < bills.size(); i++) {
+            if(bills.get(i).getProvider().equals(provider))
+            {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(bills.get(i).getBillingdate());
+                int yearbill=calendar.get(Calendar.YEAR);
+
+                if(yearbill==year){
+                    list.add(bills.get(i));
+                }
+            }
+        }
+
+        double sum=0;
+
+        for (int i = 0; i < list.size(); i++) {
+            sum=sum+list.get(i).getAmount();
+        }
+
+        sum=sum*12;
+
+        return sum;
+    }
+
+    public double GetMonthlyConsumption(String provider,int year, int month){
+        Bill existing=new Bill();
+        for (int i = 0; i < bills.size(); i++) {
+            if(bills.get(i).getProvider().equals(provider))
+            {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(bills.get(i).getBillingdate());
+                int monthbill=calendar.get(Calendar.MONTH);
+                int yearbill=calendar.get(Calendar.YEAR);
+
+                if(yearbill==year && monthbill==month) {
+                    existing = bills.get(i);
+                }
+            }
+        }
+        return existing.getAmount();
+    }
+
+
 
     public int getId() {
         return id;
@@ -144,4 +180,5 @@ public class Client {
                 bills.remove(bills.get(i));
         }
     }
+
 }
