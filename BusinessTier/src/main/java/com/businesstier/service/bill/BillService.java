@@ -22,7 +22,7 @@ public class BillService implements IBillService{
 
     @Override
     public void CreateBill(Bill bill) {
-
+        billOfClient.CreateBill(bill);
     }
 
     @Override

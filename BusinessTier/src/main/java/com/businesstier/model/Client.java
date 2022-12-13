@@ -1,17 +1,13 @@
 package com.businesstier.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 
 public class Client {
 
     @JsonProperty
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @JsonProperty
@@ -94,19 +90,6 @@ public class Client {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", dob=" + dob +
-                ", phoneNumber=" + phonenumber +
-                '}';
     }
 
     public String getPhonenumber() {

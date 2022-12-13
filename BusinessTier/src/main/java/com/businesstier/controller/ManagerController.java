@@ -1,6 +1,5 @@
 package com.businesstier.controller;
 
-import com.businesstier.model.Client;
 import com.businesstier.model.Manager;
 import com.businesstier.service.manager.ManagerService;
 import org.slf4j.Logger;

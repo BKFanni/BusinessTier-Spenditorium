@@ -3,7 +3,6 @@ package com.businesstier.controller;
 
 import com.businesstier.model.Bill;
 import com.businesstier.service.bill.BillService;
-import com.businesstier.service.bill.IBillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
