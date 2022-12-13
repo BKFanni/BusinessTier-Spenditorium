@@ -108,15 +108,5 @@ public class Client {
         this.bills = bills;
     }
 
-    public void addBill(Bill bill){
-        bills.add(bill);
-    }
-
-    public void removeBill(int billId){
-        for (int i = 0; i < bills.size(); i++) {
-            if (bills.get(i).getId() == billId)
-                bills.remove(bills.get(i));
-        }
-    }
 
 }

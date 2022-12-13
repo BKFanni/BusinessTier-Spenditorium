@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/manager")
 public class ManagerController {
-    private Logger logger= LoggerFactory.getLogger(ClientController.class);
+    private Logger logger= LoggerFactory.getLogger(ManagerController.class);
 
     @Autowired private ManagerService service;
 

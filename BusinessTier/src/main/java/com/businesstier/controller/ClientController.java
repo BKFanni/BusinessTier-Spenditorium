@@ -47,6 +47,12 @@ public class ClientController {
     }
 
 
+    /**
+     * User login: decoding String value (userlogindto) containing username and password and sends credentials
+     * to Tier3, if user credentials are valid return HTTP.OK response, otherwise HTTP.NOT_FOUND
+     * @param userlogindto
+     * @return
+     */
     @PostMapping(value = "/login", consumes = MediaType.ALL_VALUE)
     public ResponseEntity login(@RequestBody String userlogindto){
         try {
@@ -66,18 +72,26 @@ public class ClientController {
 
     //STATISTICS
     @GetMapping(value = "/statistics/average/{provider},{year}")
-    public ResponseEntity getAverageConsumptionByYear(@RequestParam("username") String username, @PathVariable("provider") String provider, @PathVariable("year") int year){
+    public ResponseEntity getAverageConsumptionByYear(@RequestParam("clientid") int clientid, @PathVariable("provider") String provider, @PathVariable("year") int year){
         try{
-            Client client = service.GetClientByUsername(username);
-            return new ResponseEntity(GetAverageConsumption(username,provider,year),HttpStatus.OK);
+            Client client = service.GetClientById(clientid);
+            return new ResponseEntity(GetAverageConsumption(clientid,provider,year),HttpStatus.OK);
         }catch (Exception e){
             logger.error(e.getMessage(),e);
             return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
-    public double GetAverageConsumption(String username, String provider, int year){
-        Client client=service.GetClientByUsername(username);
+    /**
+     * GetAverageConsumption: Calculates the average consumption of a client for a specified provider and year
+     * e.g. Calculate average electricity consumption in 2022
+     * @param clientid
+     * @param provider
+     * @param year
+     * @return
+     */
+    public double GetAverageConsumption(int clientid, String provider, int year){
+        Client client=service.GetClientById(clientid);
         List<Bill> bills=client.getBills();
         List<Bill> list=new ArrayList<Bill>();
         for (int i = 0; i < bills.size(); i++) {
@@ -106,18 +120,26 @@ public class ClientController {
 
 
     @GetMapping(value = "/statistics/total/{provider},{year}")
-    public ResponseEntity getTotalConsumptionByYear(@RequestParam("username") String username, @PathVariable("provider") String provider, @PathVariable("year") int year){
+    public ResponseEntity getTotalConsumptionByYear(@RequestParam("clientid") int clientid, @PathVariable("provider") String provider, @PathVariable("year") int year){
         try{
-            Client client = service.GetClientByUsername(username);
-            return new ResponseEntity(GetTotalConsumptionByYear(username,provider,year),HttpStatus.OK);
+            Client client = service.GetClientById(clientid);
+            return new ResponseEntity(GetTotalConsumptionByYear(clientid,provider,year),HttpStatus.OK);
         }catch (Exception e){
             logger.error(e.getMessage(),e);
             return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
-    public double GetTotalConsumptionByYear(String username, String provider, int year){
-        Client client=service.GetClientByUsername(username);
+    /**
+     * GetTotalConsumptionByYear: Calculates the total consumption of a client for a specified provider and year
+     * e.g. Calculate total electricity consumption in 2022
+     * @param clientid
+     * @param provider
+     * @param year
+     * @return
+     */
+    public double GetTotalConsumptionByYear(int clientid, String provider, int year){
+        Client client=service.GetClientById(clientid);
         List<Bill> bills=client.getBills();
         List<Bill> list=new ArrayList<Bill>();
         for (int i = 0; i < bills.size(); i++) {
@@ -144,19 +166,27 @@ public class ClientController {
 
 
     @GetMapping(value = "/statistics/monthly/{provider},{year},{month}")
-    public ResponseEntity getConsumptionForMonthByYear(@RequestParam("username") String username, @PathVariable("provider") String provider, @PathVariable("year") int year, @PathVariable("month") int month){
+    public ResponseEntity getConsumptionForMonthByYear(@RequestParam("clientid") int clientid, @PathVariable("provider") String provider, @PathVariable("year") int year, @PathVariable("month") int month){
         try{
-            Client client = service.GetClientByUsername(username);
-            return new ResponseEntity(GetConsumptionForMonthByYear(username,provider,year,month),HttpStatus.OK);
+            Client client = service.GetClientById(clientid);
+            return new ResponseEntity(GetConsumptionForMonthByYear(clientid,provider,year,month),HttpStatus.OK);
         }catch (Exception e){
             logger.error(e.getMessage(),e);
             return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
-
-    public double GetConsumptionForMonthByYear(String username, String provider,int year, int month){
-        Client client=service.GetClientByUsername(username);
+    /**
+     * GetConsumptionForMonthByYear: Returns the consumption for a specified provider, year and month
+     * e.g. Calculate water consumption in 2022 February
+     * @param clientid
+     * @param provider
+     * @param year
+     * @param month
+     * @return
+     */
+    public double GetConsumptionForMonthByYear(int clientid, String provider,int year, int month){
+        Client client=service.GetClientById(clientid);
         List<Bill> bills=client.getBills();
         Bill existing=new Bill();
         for (int i = 0; i < bills.size(); i++) {

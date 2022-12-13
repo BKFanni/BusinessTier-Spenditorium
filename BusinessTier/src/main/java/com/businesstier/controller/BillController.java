@@ -15,9 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("")
 public class BillController {
-    private Logger logger= LoggerFactory.getLogger(ClientController.class);
-
-
+    private Logger logger= LoggerFactory.getLogger(BillController.class);
     @Autowired
     BillService billService;
 
@@ -30,14 +28,14 @@ public class BillController {
         billService.CreateBill(bill);
     }
 
-    @GetMapping(value = "/bills", consumes = "application/json")
+    @GetMapping(value = "/allbills", consumes = "application/json")
     public List<Bill> getBill(@RequestParam("clientId") int clientId){
         return billService.GetBillsForClient(clientId);
     }
 
-    @GetMapping(value = "/bills/{provider}", consumes = "application/json")
-    public List<Bill> getBillsByProvider(@RequestParam("clientId") int clientId, @PathVariable("provider") String provider){
-        List<Bill> list= billService.GetBillsForClient(clientId);
+    @GetMapping(value = "/bills", consumes = "application/json")
+    public List<Bill> getBillsByProvider(@RequestParam("clientId") int clientid, @RequestParam("provider") String provider){
+        List<Bill> list= billService.GetBillsForClient(clientid);
         List<Bill> listByProvider=new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i).getProvider().equals(provider)){
