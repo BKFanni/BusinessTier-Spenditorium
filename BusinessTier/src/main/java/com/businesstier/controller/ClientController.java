@@ -56,11 +56,10 @@ public class ClientController {
     @PostMapping(value = "/login", consumes = MediaType.ALL_VALUE)
     public ResponseEntity login(@RequestBody String userlogindto){
         try {
-            byte[] decodedBytes = Base64.getDecoder().decode(userlogindto);
-            String decodedString = new String(decodedBytes);
-            int splitindex=decodedString.indexOf("/");
-            String username=decodedString.substring(0,splitindex);
-            String password=decodedString.substring(splitindex);
+            String s = new String(Base64.getUrlDecoder().decode(userlogindto.getBytes()));
+            int splitindex=s.indexOf("/");
+            String username=s.substring(0,splitindex);
+            String password=s.substring(splitindex);
             Client client=service.GetClient(username,password);
             return new ResponseEntity(client.getId(),HttpStatus.OK);
 
