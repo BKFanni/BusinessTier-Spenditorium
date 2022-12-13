@@ -2,8 +2,6 @@ package com.businesstier.controller;
 
 import com.businesstier.model.Bill;
 import com.businesstier.model.Client;
-import com.businesstier.security.AuthRequest;
-import com.businesstier.security.JwtUtil;
 import com.businesstier.service.client.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,26 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
 
 
 @RestController
-@CrossOrigin("http://localhost:7172")
+@CrossOrigin("*")
 @RequestMapping("/client")
 public class ClientController {
 
     private Logger logger= LoggerFactory.getLogger(ClientController.class);
-
-    @Autowired
-    private JwtUtil jwtUtil;
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     ClientService service;
@@ -39,34 +31,37 @@ public class ClientController {
         service=clientService;
     }
 
-
-
-
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/register", consumes = MediaType.ALL_VALUE)
     public ResponseEntity register(@RequestBody Client client){
-        try{ System.out.println(client);
-            String client1 = service.CreateClientAccount(client);
+        try{
             System.out.println(client);
-            return new ResponseEntity(client1, HttpStatus.OK);
+            service.CreateClientAccount(client);
+            return new ResponseEntity(HttpStatus.OK);
         }
         catch(Exception e){
             logger.error(e.getMessage(),e);
-            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
     }
 
 
     @PostMapping(value = "/login", consumes = MediaType.ALL_VALUE)
-    public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
+    public ResponseEntity login(@RequestBody String userlogindto){
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword())
-            );
+            byte[] decodedBytes = Base64.getDecoder().decode(userlogindto);
+            String decodedString = new String(decodedBytes);
+            int splitindex=decodedString.indexOf("/");
+            String username=decodedString.substring(0,splitindex);
+            String password=decodedString.substring(splitindex);
+            Client client=service.GetClient(username,password);
+            return new ResponseEntity(client.getId(),HttpStatus.OK);
+
         } catch (Exception ex) {
-            throw new Exception("Invalid username/password");
+            logger.error(ex.getMessage(),ex);
+            return new ResponseEntity(ex.getMessage(),HttpStatus.NOT_FOUND);
         }
-        return jwtUtil.generateToken(authRequest.getUserName());
     }
 
     //STATISTICS

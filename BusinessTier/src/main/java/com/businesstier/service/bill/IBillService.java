@@ -12,4 +12,5 @@ public interface IBillService {
     void DeleteBill(Bill bill);
 
     void DeleteBillById(int burialId);
+
 }

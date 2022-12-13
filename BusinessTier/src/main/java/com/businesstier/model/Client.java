@@ -30,7 +30,7 @@ public class Client {
     private String dob;
 
     @JsonProperty
-    private long phonenumber;
+    private String phonenumber;
 
     @JsonProperty
     private List<Bill> bills=new ArrayList<>();
@@ -109,11 +109,11 @@ public class Client {
                 '}';
     }
 
-    public long getPhonenumber() {
+    public String getPhonenumber() {
         return phonenumber;
     }
 
-    public void setPhonenumber(long phonenumber) {
+    public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
     }
 

@@ -34,4 +34,6 @@ public class BillService implements IBillService{
     public void DeleteBillById(int billId) {
         billOfClient.DeleteBillById(billId);
     }
+
+
 }

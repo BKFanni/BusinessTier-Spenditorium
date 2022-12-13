@@ -11,4 +11,5 @@ public interface BillOfClient {
     void DeleteBill(Bill bill);
 
     void DeleteBillById(int billId);
+
 }

@@ -47,4 +47,6 @@ public class BillOfClientImpl implements BillOfClient{
         NetworkPackage networkPackage = new NetworkPackage(NetworkType.DELETEBILLBYID, String.valueOf(billId));
         socket.communicate(networkPackage);
     }
+
+
 }

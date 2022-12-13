@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin("localhost:7172")
@@ -33,6 +34,18 @@ public class BillController {
     @GetMapping(value = "/bills", consumes = "application/json")
     public List<Bill> getBill(@RequestParam("clientId") int clientId){
         return billService.GetBillsForClient(clientId);
+    }
+
+    @GetMapping(value = "/bills/{provider}", consumes = "application/json")
+    public List<Bill> getBillsByProvider(@RequestParam("clientId") int clientId, @PathVariable("provider") String provider){
+        List<Bill> list= billService.GetBillsForClient(clientId);
+        List<Bill> listByProvider=new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).getProvider().equals(provider)){
+                listByProvider.add(list.get(i));
+            }
+        }
+        return listByProvider;
     }
 
     @DeleteMapping(value = "/bills/{billId}", consumes = "application/json")
